@@ -85,4 +85,61 @@ export default function Dashboard() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <h
+        <h2 style={{ fontSize: '1.1rem', fontWeight: '600' }}>This week's people</h2>
+        <button onClick={handleGenerate} disabled={generating} style={{
+          padding: '0.4rem 1rem',
+          backgroundColor: '#0f0f0f',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '6px',
+          fontSize: '0.85rem',
+          cursor: 'pointer'
+        }}>
+          {generating ? 'Generating...' : 'Generate new batch'}
+        </button>
+      </div>
+
+      {loading && <p style={{ color: '#666' }}>Loading...</p>}
+      {!loading && people.length === 0 && (
+        <p style={{ color: '#666' }}>No people yet this week. Click "Generate new batch" to get started!</p>
+      )}
+
+      {people.map((person) => (
+        <div key={person.id} style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1rem',
+          borderBottom: '1px solid #f0f0f0',
+          gap: '1rem'
+        }}>
+          <div>
+            <p style={{ fontWeight: '600' }}>{person.name}</p>
+            <p style={{ color: '#666', fontSize: '0.9rem' }}>{person.title} · {person.company}</p>
+            <p style={{ color: '#999', fontSize: '0.8rem' }}>{person.role_type}</p>
+          </div>
+          <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+            {person.linkedin_url && (
+              <a href={person.linkedin_url} target="_blank" rel="noopener noreferrer" style={{
+                padding: '0.4rem 0.8rem',
+                border: '1px solid #ddd',
+                borderRadius: '6px',
+                fontSize: '0.85rem',
+                color: '#0f0f0f'
+              }}>LinkedIn ↗</a>
+            )}
+            <button onClick={() => copyDM(person.drafted_dm)} style={{
+              padding: '0.4rem 0.8rem',
+              backgroundColor: '#0f0f0f',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '0.85rem',
+              cursor: 'pointer'
+            }}>Copy DM</button>
+          </div>
+        </div>
+      ))}
+    </main>
+  )
+}
